@@ -1,0 +1,24 @@
+---
+- name: Install Apache web server
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+    - name: Start Apache
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Deploy website
+      copy:
+        src: index.html
+        dest: /var/www/html/
+
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
